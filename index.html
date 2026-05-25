@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>曾国藩审势 · 全集版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf6ed;
+  --bg-elev: #fffdf7;
+  --ink: #1c1917;
+  --ink-soft: #44403c;
+  --ink-faint: #78716c;
+  --line: #e7e2d4;
+  --line-soft: #efe9da;
+
+  --c1: #b45309; --c1-bg: #fef3c7;  /* 天道恶盈 - 赭石 */
+  --c2: #a16207; --c2-bg: #fef9c3;  /* 花未全开 - 琥珀 */
+  --c3: #1e40af; --c3-bg: #dbeafe;  /* 刚柔互用 - 蓝 */
+  --c4: #7c3aed; --c4-bg: #ede9fe;  /* 吉凶同域 - 紫 */
+  --c5: #dc2626; --c5-bg: #fef2f2;  /* 傲惰为败 - 红 */
+  --c6: #0d9488; --c6-bg: #ccfbf1;  /* 盛衰 - 青 */
+  --c7: #15803d; --c7-bg: #dcfce7;  /* 尽人事 - 绿 */
+
+  --serif: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --zh-serif: 'Noto Serif SC', 'Songti SC', 'Source Han Serif SC', serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ====== PROGRESS BAR ====== */
+#progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  z-index: 9999;
+  background: transparent;
+}
+#progress::after {
+  content: '';
+  display: block;
+  height: 100%;
+  width: var(--scroll, 0%);
+  background: linear-gradient(to right, var(--c1), var(--c2), var(--c3), var(--c4), var(--c5), var(--c6), var(--c7));
+  transition: width 0.1s linear;
+}
+
+/* ====== HERO ====== */
+.hero {
+  background: linear-gradient(180deg, #ede4d0 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--line);
+  padding: 80px 32px 56px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(180,83,9,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 52px;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  margin-bottom: 12px;
+  position: relative;
+}
+.hero h1 .en {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 20px;
+  letter-spacing: 0.15em;
+  display: block;
+  color: var(--ink-faint);
+  margin-top: 4px;
+}
+.hero .subtitle {
+  font-family: var(--zh-serif);
+  font-size: 17px;
+  color: var(--ink-soft);
+  margin-bottom: 24px;
+}
+.hero .epigraph {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--zh-serif);
+  font-size: 14px;
+  line-height: 2.0;
+  color: var(--ink-soft);
+}
+.hero .epigraph em {
+  font-style: normal;
+  color: var(--c1);
+  font-weight: 600;
+}
+
+/* ====== STICKY NAV ====== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 246, 237, 0.92);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 32px;
+}
+.nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-pill {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+}
+.nav-pill:hover { background: #fff; border-color: var(--ink-faint); }
+.nav-pill.active {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.nav-spacer {
+  flex: 1;
+  min-width: 8px;
+}
+
+/* ====== MAIN ====== */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+
+/* ====== SECTION HEADERS ====== */
+.section {
+  margin-top: 72px;
+  scroll-margin-top: 72px;
+}
+.section:first-child { margin-top: 0; }
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--ink);
+}
+.section-header h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.section-header .zh {
+  font-family: var(--zh-serif);
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+
+/* ====== PARAGRAPHS ====== */
+.lede {
+  font-family: var(--zh-serif);
+  font-size: 16px;
+  line-height: 2.0;
+  color: var(--ink-soft);
+  margin-bottom: 32px;
+  text-indent: 2em;
+  text-align: justify;
+}
+
+/* ====== MIRROR CARDS ====== */
+.mirror-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mirror {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+}
+.mirror:hover {
+  border-color: var(--ink-faint);
+  box-shadow: 0 4px 20px rgba(28,25,23,0.05);
+}
+.mirror::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+.mirror[data-i="0"]::before { background: var(--c1); }
+.mirror[data-i="1"]::before { background: var(--c2); }
+.mirror[data-i="2"]::before { background: var(--c3); }
+.mirror[data-i="3"]::before { background: var(--c4); }
+.mirror[data-i="4"]::before { background: var(--c5); }
+.mirror[data-i="5"]::before { background: var(--c6); }
+.mirror[data-i="6"]::before { background: var(--c7); }
+
+.mirror-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.mirror-num {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+}
+.mirror-tag {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+.mirror[data-i="0"] .mirror-tag { background: var(--c1-bg); color: var(--c1); }
+.mirror[data-i="1"] .mirror-tag { background: var(--c2-bg); color: var(--c2); }
+.mirror[data-i="2"] .mirror-tag { background: var(--c3-bg); color: var(--c3); }
+.mirror[data-i="3"] .mirror-tag { background: var(--c4-bg); color: var(--c4); }
+.mirror[data-i="4"] .mirror-tag { background: var(--c5-bg); color: var(--c5); }
+.mirror[data-i="5"] .mirror-tag { background: var(--c6-bg); color: var(--c6); }
+.mirror[data-i="6"] .mirror-tag { background: var(--c7-bg); color: var(--c7); }
+
+.mirror h3 {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+
+.quote-box {
+  margin: 12px 0 16px 1.5em;
+  padding: 14px 18px;
+  background: var(--bg);
+  border-radius: 0 8px 8px 0;
+  font-family: var(--zh-serif);
+  font-size: 14px;
+  line-height: 2.0;
+  color: var(--ink-soft);
+  position: relative;
+}
+.mirror[data-i="0"] .quote-box { border-left: 3px solid var(--c1); }
+.mirror[data-i="1"] .quote-box { border-left: 3px solid var(--c2); }
+.mirror[data-i="2"] .quote-box { border-left: 3px solid var(--c3); }
+.mirror[data-i="3"] .quote-box { border-left: 3px solid var(--c4); }
+.mirror[data-i="4"] .quote-box { border-left: 3px solid var(--c5); }
+.mirror[data-i="5"] .quote-box { border-left: 3px solid var(--c6); }
+.mirror[data-i="6"] .quote-box { border-left: 3px solid var(--c7); }
+
+.quote-box .source {
+  display: block;
+  text-align: right;
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-top: 8px;
+  font-family: var(--sans);
+}
+
+.mirror p {
+  font-family: var(--zh-serif);
+  font-size: 15px;
+  line-height: 2.0;
+  color: var(--ink-soft);
+  text-indent: 2em;
+  text-align: justify;
+  margin-bottom: 12px;
+}
+
+.insight-box {
+  margin: 12px 0 0 0;
+  padding: 12px 16px;
+  background: #f8f2e8;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+.insight-box strong {
+  color: var(--ink);
+}
+
+/* ====== DIMENSION GRID ====== */
+.dim-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.dim-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  transition: border-color .2s, transform .15s;
+}
+.dim-card:hover {
+  border-color: var(--ink-faint);
+  transform: translateY(-1px);
+}
+.dim-name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--ink);
+  margin-bottom: 4px;
+  letter-spacing: 0.03em;
+}
+.dim-score {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-bottom: 8px;
+}
+.dim-bar {
+  height: 6px;
+  background: var(--line-soft);
+  border-radius: 3px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.dim-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--ink-faint), var(--ink));
+  transition: width 0.6s ease-out;
+}
+.dim-desc {
+  font-family: var(--zh-serif);
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
+.dim-full {
+  grid-column: 1 / -1;
+}
+
+/* ====== TABLE ====== */
+.strategy-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.7;
+}
+thead th {
+  background: var(--ink);
+  color: var(--bg-elev);
+  padding: 12px 14px;
+  text-align: left;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+thead th:first-child { border-radius: 8px 0 0 0; }
+thead th:last-child { border-radius: 0 8px 0 0; }
+tbody td {
+  padding: 14px;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+tbody tr:nth-child(even) td { background: #f8f4ea; }
+tbody tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+tbody tr:last-child td:last-child { border-radius: 0 0 8px 0; }
+tbody td:first-child {
+  font-weight: 600;
+  font-family: var(--serif);
+  color: var(--ink);
+  white-space: nowrap;
+  width: 15%;
+}
+tbody td:nth-child(2) {
+  font-family: var(--zh-serif);
+  color: var(--ink-soft);
+  font-size: 13px;
+  width: 35%;
+}
+tbody td:nth-child(3) {
+  font-family: var(--zh-serif);
+  color: var(--ink-soft);
+  font-size: 13px;
+  width: 50%;
+}
+
+/* ====== ADVICE SECTION ====== */
+.advice {
+  font-family: var(--zh-serif);
+  font-size: 16px;
+  line-height: 2.0;
+  color: var(--ink-soft);
+}
+.advice p {
+  text-indent: 2em;
+  text-align: justify;
+  margin-bottom: 1em;
+}
+.advice h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--ink);
+  margin: 32px 0 16px;
+  letter-spacing: 0.02em;
+}
+.advice .final-quote {
+  margin: 40px 0;
+  padding: 24px 28px;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 2.0;
+  text-indent: 0;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.advice .final-quote strong {
+  color: var(--ink);
+}
+
+/* ====== FOOTER ====== */
+footer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-faint);
+  font-family: var(--sans);
+  letter-spacing: 0.05em;
+  line-height: 1.8;
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 800px) {
+  .hero { padding: 60px 20px 40px; }
+  .hero h1 { font-size: 36px; }
+  .nav { padding: 8px 16px; }
+  .nav-inner { gap: 6px; }
+  .nav-pill { font-size: 11px; padding: 5px 12px; }
+  main { padding: 32px 20px 60px; }
+  .section-header h2 { font-size: 24px; }
+  .section-header .zh { font-size: 13px; }
+  .mirror { padding: 20px; }
+  .mirror h3 { font-size: 18px; }
+  .dim-grid { grid-template-columns: 1fr; }
+  .quote-box { margin-left: 0; }
+  .strategy-table-wrap { margin: 0 -20px; padding: 0 20px; }
+  table { font-size: 12px; }
+  thead th, tbody td { padding: 10px; }
+  tbody td:first-child { white-space: normal; width: auto; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 28px; letter-spacing: 0.04em; }
+  .hero h1 .en { font-size: 15px; }
+  .hero .epigraph { font-size: 13px; padding: 16px; }
+  main { padding: 24px 16px 40px; }
+  .section-header { flex-wrap: wrap; gap: 6px; }
+  .mirror { border-radius: 10px; }
+  .advice .final-quote { padding: 16px; font-size: 14px; }
+  footer { padding: 24px 16px; }
+}
+
+/* ====== PRINT ====== */
+@media print {
+  .nav, #progress { display: none; }
+  body { background: white; }
+  .mirror { break-inside: avoid; border: 1px solid #ddd; box-shadow: none; }
+  .mirror:hover { box-shadow: none; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ====== HERO ====== -->
+<header class="hero">
+  <h1>
+    曾国藩审势
+    <span class="en">A Zeng Guofan Lens on 2026</span>
+  </h1>
+  <div class="subtitle">以曾国藩全集七章为体 · 观当下世界之势</div>
+  <div class="epigraph">
+    四月既望，金陵大定，而余心忧之愈深。<br>
+    人以功成而喜，我以名盛而惧。<br>
+    故曰：<em>"花未全开月未圆"</em>，是惜福之道、保泰之法也。
+  </div>
+</header>
+
+<!-- ====== NAV ====== -->
+<nav class="nav" id="topnav">
+  <div class="nav-inner">
+    <a class="nav-pill active" href="#section-intro">全局框架</a>
+    <a class="nav-pill" href="#section-cards">七面镜子</a>
+    <a class="nav-pill" href="#section-dims">五维研判</a>
+    <a class="nav-pill" href="#section-table">生存策略</a>
+    <a class="nav-pill" href="#section-advice">个人路径</a>
+  </div>
+</nav>
+
+<!-- ====== MAIN ====== -->
+<main>
+
+  <!-- ====== INTRO ====== -->
+  <section class="section" id="section-intro">
+    <div class="section-header">
+      <h2>全局框架</h2>
+      <span class="zh">曾国藩的七面镜子</span>
+    </div>
+    <p class="lede">
+      以下七条原则贯穿曾氏一生，从道光年间翰林到同治年间节制四省的总督，其思想的延续性极强——早年修身所悟，在晚年统帅千军万马时不仅没有抛弃，反而更加笃定。这七面镜子，每一面都反映出一个看待当下的独特视角，能帮助我们穿透2026年的混沌表象，看到深层结构。
+    </p>
+  </section>
+
+  <!-- ====== 7 MIRROR CARDS ====== -->
+  <section class="section" id="section-cards" style="margin-top: 32px;">
+    <div class="mirror-grid">
+
+      <!-- 1 -->
+      <div class="mirror" data-i="0">
+        <div class="mirror-head">
+          <span class="mirror-num">镜·一</span>
+          <span class="mirror-tag">天道恶盈</span>
+        </div>
+        <h3>盛极必反：概之力不可违</h3>
+        <div class="quote-box">
+          「日中则昃，月盈则亏。吾家亦盈时矣。<br>
+          管子云：斗斛满则人概之，人满则天概之。<br>
+          余谓天概之无形，仍假手于人以概之。」<br>
+          <span class="source">—— 致九弟 · 咸丰八年 · 为政篇</span>
+        </div>
+        <p>这是曾氏顶层世界观的核心：任何事物到达顶点就会不可逆地转向反面。这不是消极的天命论，而是对自然规律的严肃敬畏。他比谁都清楚，"概"的力量（刮平）要么来自内部的自我节制，要么来自外部的强制修正。</p>
+        <div class="insight-box">
+          <strong>2026镜鉴：</strong> 全球化退潮、人口结构转折、债务周期见顶——本质是同一轮"天道自概"。谁先意识到"盈时已至"，谁就能提前做出调整而不是被动承受。
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="mirror" data-i="1">
+        <div class="mirror-head">
+          <span class="mirror-num">镜·二</span>
+          <span class="mirror-tag">花未全开</span>
+        </div>
+        <h3>留余之道：保泰惜福的极致智慧</h3>
+        <div class="quote-box">
+          「平日最好昔人'花未全开月未圆'七字，<br>
+          以为惜福之道、保泰之法，莫精于此。」<br>
+          <span class="source">—— 致九弟 · 同治二年 · 为政篇</span>
+        </div>
+        <p>这句话贯穿了曾氏后半生的所有重大决策。下至对下属的保举、军饷的发放，上至攻城略地后的战略选择，他都在自觉地让事情"不要做满"。月圆立即会缺，花全开随后便是谢——<strong>在巅峰前的半步停住，才能维持最长久的生命力</strong>。他称此为<em>收啬之气</em>，与九弟的<em>发舒之气</em>形成鲜明对比。</p>
+        <div class="insight-box">
+          <strong>2026镜鉴：</strong> 全盛之时就要准备"收啬"而非继续"发舒"。对于当下的中国经济——维持潜力而不追求过热增长，本身就是一种"花未全开"的智慧。
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="mirror" data-i="2">
+        <div class="mirror-head">
+          <span class="mirror-num">镜·三</span>
+          <span class="mirror-tag">刚柔互用</span>
+        </div>
+        <h3>分域取态：公事强矫，私利谦退</h3>
+        <div class="quote-box">
+          「天地之道，刚柔互用，不用偏废。<br>
+          太柔则靡，太刚则折。<br>
+          趋事赴公，则当强矫；争名逐利，则当谦退。」<br>
+          <span class="source">—— 致四弟九弟 · 咸丰九年 · 修身篇</span>
+        </div>
+        <p>曾氏说的是根据<strong>不同领域</strong>选择<strong>不同态度</strong>：公事要强硬推进，私利要谦退不争；创业要勇猛精进，守成要收得住手。他在内政议事时不苟言笑、在军事大局上寸步不让，而在个人待遇上屡次辞让——这正是刚柔分用的典范。</p>
+        <div class="insight-box">
+          <strong>2026镜鉴：</strong> 事业与生计上不能"柔"——要有硬本事。名声和攀比上不必"刚"——不必跟风焦虑。分清什么是"公事"（需要强矫）什么是"私利"（应该谦退）。
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="mirror" data-i="3">
+        <div class="mirror-head">
+          <span class="mirror-num">镜·四</span>
+          <span class="mirror-tag">吉凶同域</span>
+        </div>
+        <h3>忧喜并时：每有得意，必有失意随之</h3>
+        <div class="quote-box">
+          「每遇得意之时，即有失意之事，相随而至。<br>
+          甲寅冬，余克武汉田家镇，声名多盛。<br>
+          腊月念五甫奉黄马褂之赐，是夜即大败，<br>
+          衣服文卷，荡然无存。」<br>
+          <span class="source">—— 致澄弟沅弟 · 咸丰八年 · 为政篇</span>
+        </div>
+        <p>这是曾氏从自己血淋淋的经历中提炼出的洞察：<strong>吉凶从来并肩而来</strong>。他列了四件亲身经历的事——每一件都是大吉之后紧随大凶。他不是在抒发感慨，而是在建立一种"忧喜并时"的世界观。这个认知让他<strong>在最困难时不死心，在最得意时不翘尾</strong>。</p>
+        <div class="insight-box">
+          <strong>2026镜鉴：</strong> 理解了这个"吉凶同域"原理，就不会对"好消息刚出坏消息就来"感到意外。不因一时利好而盲目乐观，也不因短期阵痛而彻底绝望。
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="mirror" data-i="4">
+        <div class="mirror-head">
+          <span class="mirror-num">镜·五</span>
+          <span class="mirror-tag">傲惰为败</span>
+        </div>
+        <h3>两种死法：才者傲败，庸者惰败</h3>
+        <div class="quote-box">
+          「古来言凶德致败者约有二端：曰长傲，曰多言。<br>
+          天下古今之庸人，皆以一惰字致败；<br>
+          天下古今之才人，皆以一傲字致败。」<br>
+          <span class="source">—— 致四弟九弟 · 咸丰八年 · 修身篇</span>
+        </div>
+        <p>曾氏将人的失败分为两种路径：<strong>有才者因傲慢而败，平庸者因懒惰而败</strong>。这是他对历史的高度浓缩。"傲"表现为看不上基础的、琐碎的、长周期的工作；"惰"表现为宁可刷手机也不动笔、不动手。两者最终都会让人在转折点到来时毫无准备。</p>
+        <div class="insight-box">
+          <strong>2026镜鉴：</strong> 越是在大环境不明朗的时候，越要把"戒傲""戒惰"作为底线。有学历不能傲，有能力不能傲，有好机会不能傲。同时要警惕"信息焦虑导致的行动惰性"——看太多、做太少。
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="mirror" data-i="5">
+        <div class="mirror-head">
+          <span class="mirror-num">镜·六</span>
+          <span class="mirror-tag">盛衰同时</span>
+        </div>
+        <h3>上场念下场：在最顺时备好退路</h3>
+        <div class="quote-box">
+          「盛时常作衰时想，上场当念下场时。<br>
+          莫买田园，莫管公事，吾所嘱者，二语而已。」<br>
+          <span class="source">—— 致沅弟 · 同治元年 · 理财篇</span>
+        </div>
+        <p>这是曾氏<strong>最务实的生存策略</strong>。在大胜之后、官运亨通之时，他说的不是"如何再进一步"而是"莫买田园、莫管公事"——不要扩张产业（那是招眼的），不要插手闲事（那是惹祸的）。他还说凡家道可久者，"不恃一时之官爵，而恃长远之家规"、"不恃一二人之骤发，而恃大众之维持"。</p>
+        <div class="insight-box">
+          <strong>2026镜鉴：</strong> 现金储备 > 负债扩张；能力积累 > 头衔追逐。下行的准备比上行时赚多少更重要。"莫买田园"在今天的含义就是：不要在估值高点追资产，不要用高杠杆上项目。
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="mirror" data-i="6">
+        <div class="mirror-head">
+          <span class="mirror-num">镜·七</span>
+          <span class="mirror-tag">尽人事</span>
+        </div>
+        <h3>天命与人谋：在可控处做到极致</h3>
+        <div class="quote-box">
+          「凡国之强，必须多得贤臣；凡家之强，必须多出贤子弟。<br>
+          此亦关乎天命，不尽由于人谋。<br>
+          吾惟力尽人事，不敢存丝毫侥幸之心。」<br>
+          <span class="source">—— 致沅弟 · 同治元年 · 为政篇</span>
+        </div>
+        <p>曾氏区分了什么是人力能改的（自己的修养、能力、团队），什么是人力量不着的（大时局、运气、最终的成败）。他说"命运作主"是真的在说命运，但同时又强调<strong>本质修炼不能丢</strong>。</p>
+        <div class="insight-box">
+          <strong>2026镜鉴：</strong> 大环境个人无法左右，但在自己可控的范围内——知识储备、专业技能、身体状态、人际信用——必须"尽人事"。同时对于最终的结果保持开放：老老实实做事，不去押注于某种运气的发生。
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== 5 DIMENSIONS ====== -->
+  <section class="section" id="section-dims">
+    <div class="section-header">
+      <h2>五维研判</h2>
+      <span class="zh">曾式透镜 · 2026年大势五维判</span>
+    </div>
+    <p class="lede">
+      以下以曾国藩的七面镜子为工具，逐维度评估2026年的整体形势。每个维度给出一个评分（0-10），评分越低表示该维度更偏向"衰方"需要警惕，越高表示该维度仍有"盛势"可依托。
+    </p>
+
+    <div class="dim-grid">
+
+      <div class="dim-card">
+        <div class="dim-name">经济周期 · 4/10</div>
+        <div class="dim-score">盛衰交替之秋</div>
+        <div class="dim-bar"><div class="dim-fill" style="width:40%"></div></div>
+        <div class="dim-desc">世界经济正处于"月盈而亏"的大周期拐点。高利率之后遗症、债务存量、人口老龄化、逆全球化、AI对就业结构的冲击——多重"概"的力量叠加。但中国仍有制造业主导地位和巨大内需纵深，尚不是"全衰"。曾氏会提醒：<strong>"自概"胜于"人概"</strong>，主动调整结构比被动承受危机要好。</div>
+      </div>
+
+      <div class="dim-card">
+        <div class="dim-name">地缘格局 · 3/10</div>
+        <div class="dim-score">刚柔失衡之困</div>
+        <div class="dim-bar"><div class="dim-fill" style="width:30%"></div></div>
+        <div class="dim-desc">中美关系从竞争走向体系性对抗，科技脱钩、金融博弈、区域代理人摩擦。曾氏论外交时说"以大事小，乐天之道"——大国对大国，各存敬畏才能不破底线。2026年全球多边体系碎片化加剧，<strong>"刚"方过盛而"柔"方不足</strong>，是最危险的失衡。</div>
+      </div>
+
+      <div class="dim-card">
+        <div class="dim-name">社会心态 · 5/10</div>
+        <div class="dim-score">傲惰交杂之症</div>
+        <div class="dim-bar"><div class="dim-fill" style="width:50%"></div></div>
+        <div class="dim-desc">社会层面"傲"（信息茧房、偏见极化、对异见的不宽容）与"惰"（结构性失业中的等待心态、躺平文化）同时存在。曾氏对这两种病理的判断极为精准——傲者多才，惰者多庸。当下更致命的可能是<strong>结构性惰性</strong>——适应和转型的动力不足。</div>
+      </div>
+
+      <div class="dim-card">
+        <div class="dim-name">技术变革 · 7/10</div>
+        <div class="dim-score">收啬发舒之辨</div>
+        <div class="dim-bar"><div class="dim-fill" style="width:70%"></div></div>
+        <div class="dim-desc">AI正处于"春夏发舒之气"的旺盛阶段，但曾氏会警惕——"发舒而生机乃旺"的同时，如果不懂得"收啬"，爆发之后就是泡沫破裂。2026年AI已从前两年的纯粹兴奋进入洗牌期。对个体而言关键是用"收啬"应对不确定——<strong>不要赌方向</strong>，而是建立能适应多种技术变化的底层能力。</div>
+      </div>
+
+      <div class="dim-card dim-full">
+        <div class="dim-name">总体判断 · 4/10</div>
+        <div class="dim-score">鼎盛已过，衰象初现，然人力可为</div>
+        <div class="dim-bar"><div class="dim-fill" style="width:40%"></div></div>
+        <div class="dim-desc">
+          用曾国藩的"月盈则亏"框架来看，2026年的世界并非到了"亏"的底部，而是<strong>"盈方过，亏方生"</strong>的阶段——最舒服的红利期已结束，新的平衡尚未建立。但正如曾氏所说，强弱之间有大量人为空间：<br><br>
+          对国家而言："自概"而非"被动概"——主动调整发展模式、降低增速预期但仍保持核心能力建设。<br><br>
+          对个人而言："尽人事"而后"听天命"——在一个不再水涨船高的时代，<strong>每一分积累都是实实在在的壁垒</strong>，而每一分浮躁和懈怠都会加速被淘汰。
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== STRATEGY TABLE ====== -->
+  <section class="section" id="section-table">
+    <div class="section-header">
+      <h2>七条生存策略</h2>
+      <span class="zh">曾国藩式生存 · 2026</span>
+    </div>
+    <p class="lede">
+      以下七条策略，每一条都直接对应曾国藩家书中的一条原则，并给出2026年的落地建议。这不是鸡汤，是基于曾氏全部思想体系推演出的行动框架。
+    </p>
+
+    <div class="strategy-table-wrap">
+      <table>
+        <thead>
+          <tr><th>曾氏原则</th><th>原文精髓</th><th>2026 落地建议</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>花未全开</td>
+            <td>任何事不要做到极致，留三分余地</td>
+            <td>职业上不要"梭哈"一个方向，保持可迁移的核心能力；投资上永远有现金储备；关系上不站队、不结死敌</td>
+          </tr>
+          <tr>
+            <td>刚柔分用</td>
+            <td>公事强硬，私利谦退；创业勇猛，守成谨慎</td>
+            <td>工作产出上高标准不妥协（刚）；待遇攀比上不较劲（柔）。对专业问题"强矫"到底，对人际琐事"谦退"让步</td>
+          </tr>
+          <tr>
+            <td>自概之道</td>
+            <td>在天之前、在人之前，自己先动手刮平自己</td>
+            <td>主动降杠杆、优化消费结构、更新知识体系。与其等市场淘汰你，不如提前自我淘汰落后部分</td>
+          </tr>
+          <tr>
+            <td>戒傲戒惰</td>
+            <td>傲者才人败，惰者庸人败</td>
+            <td>戒傲：别因为学历/平台/过去成就而轻视基础工作。戒惰：每天必须有输出，不要只当消费者</td>
+          </tr>
+          <tr>
+            <td>盛衰同时</td>
+            <td>上场当念下场时</td>
+            <td>在最顺利时也思考"如果不行了怎么办"。不把一切押在"明天会更好"的假设上</td>
+          </tr>
+          <tr>
+            <td>收啬之气</td>
+            <td>发舒固然生机旺盛，收啬而生机乃厚</td>
+            <td>2026不宜"发舒"（大扩张、大投资），适合"收啬"（深耕、积累、等待）。用蛰伏期构建真正的护城河</td>
+          </tr>
+          <tr>
+            <td>畏三端</td>
+            <td>畏方寸、畏左右、畏清议</td>
+            <td>决策前问自己：良心过得去吗？身边最亲近的人认同吗？长期看这个选择经得起议论吗？</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ====== ADVICE ====== -->
+  <section class="section" id="section-advice">
+    <div class="section-header">
+      <h2>个人路径</h2>
+      <span class="zh">曾氏视角下的处境判断</span>
+    </div>
+    <div class="advice">
+
+      <p>双非本科 → 211经济学硕士，2026年毕业面临就业市场收缩。<strong>这份履历放在曾氏的系统里，不是劣势而是有利的"收啬"起点</strong>，原因如下：</p>
+
+      <h3>第一，你的"傲"先天不足，反而是好事。</h3>
+      <p>曾氏说"天下古今之才人，皆以一傲字致败"。名校出身的人最容易犯这个病。你的背景天然让你不会眼高手低——你经历过从低处往上走的全过程，你知道每一步怎么来的。这份<strong>"不自傲"的自觉</strong>，是曾氏系统里最重要的底层素质。</p>
+      <p>在用人篇中，他特别强调："人才以陶冶而成，不可眼光过高"——他自己重用的人里面，有书生、有武夫、有乡绅、有降将，唯一的共性是"踏实肯学"而不是"出身显赫"。</p>
+
+      <h3>第二，盛时不争，就是优势。</h3>
+      <p>2026年不是"扩招上行期"而是"存量洗牌期"。曾氏在鼎盛时期对弟弟说："吾兄弟在此鼎盛之际，弟于此等处可略退缩一步"——在大势的转折点上，<strong>"退缩一步"不是退缩，是战略性的等待和积累</strong>。你在下行期入市，意味着你不会犯上行期那些高位接盘的错误。你可以从基础做起，在别人不愿意卷的方向上建立真正的壁垒。</p>
+
+      <h3>第三，"尽人事"就是你的全部杠杆。</h3>
+      <p>这个时代的红利不在"运气型押注"而在"超额的精确执行"。曾氏一生最看重的能力只有两个字——<strong>"耐烦"</strong>。他在劝学篇里反复告诫弟弟："读书第一要有志、第二要有识、第三要有恒"——有识来自于"多看、多问、多想"，有恒来自于"每日做一点"。</p>
+
+      <div class="final-quote">
+        你既然已经走到了211硕士，说明你已战胜了比你资源丰富但毅力不足的竞争者。<br>
+        下一步不是"求更大"，而是"求更精"。<br>
+        读曾国藩全集，你已经在做正确的事。<br>
+        继续读完、理解、应用到你的现实中——<br>
+        <strong>这本家书三百年来帮助过无数在逆境中寻找方向的人。<br>
+        你也是其中之一。</strong>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ====== FOOTER ====== -->
+<footer>
+  <p>以曾国藩全集七章为体（修身 · 劝学 · 治家 · 理财 · 交友 · 为政 · 用人）</p>
+  <p>以2026年5月24日为断 · 借古人之眼 · 观今日之事</p>
+  <p style="margin-top:12px; color:#ccc;">— 花未全开月未圆 —</p>
+</footer>
+
+<script>
+// ====== READING PROGRESS ======
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.documentElement.style.setProperty('--scroll', progress + '%');
+});
+
+// ====== ACTIVE NAV PILL ======
+const pills = document.querySelectorAll('.nav-pill');
+const sections = document.querySelectorAll('.section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      pills.forEach(p => {
+        p.classList.toggle('active', p.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-50% 0px -50% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
